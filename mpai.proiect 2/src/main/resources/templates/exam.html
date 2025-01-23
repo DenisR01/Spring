@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .question-container {
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .question-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 20px 0;
+        }
+        .btn {
+            font-size: 1rem;
+        }
+        .answers-container {
+            margin-top: 10px;
+        }
+        .answers-container button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .next-button {
+            margin-top: 20px;
+        }
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .selected-answer {
+            background-color: #007bff !important;
+            color: #ffffff !important;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Examen</h1>
+
+    <div class="question-container" th:if="${exam.questions != null}">
+        <h5 th:text="'Întrebarea ' + ${currentQuestionIndex + 1} + ' din ' + ${exam.questions.size()}"></h5>
+        <h3 class="mt-3" th:text="${currentQuestion.text}"></h3>
+
+        <img class="question-image" th:if="${currentQuestion.imageUrl != null}" th:src="${currentQuestion.imageUrl}" alt="Question Image">
+
+        <div class="answers-container mt-4">
+            <button type="button" class="btn btn-outline-primary mb-2 answer-button"
+                    th:each="answer : ${currentQuestion.answers}"
+                    th:attr="data-answer-id=${answer.id}"
+                    th:text="${answer.text}"
+                    onclick="toggleAnswer(this)">
+            </button>
+        </div>
+    </div>
+
+    <form th:action="@{/exams/next}" method="post" th:if="${currentQuestionIndex < exam.questions.size() - 1}">
+        <input type="hidden" name="currentQuestionIndex" th:value="${currentQuestionIndex}">
+        <input type="hidden" name="examId" th:value="${exam.id}">
+        <input type="hidden" name="selectedAnswers" id="selectedAnswers" value="">
+        <button class="btn btn-primary w-100 next-button" type="submit" id="nextButton" disabled>Next</button>
+    </form>
+
+    <form th:action="@{/exams/submit}" method="post" th:if="${currentQuestionIndex == exam.questions.size() - 1}">
+        <input type="hidden" name="examId" th:value="${exam.id}">
+        <button class="btn btn-success next-button" type="submit">Submit Exam</button>
+    </form>
+</div>
+
+<script>
+    let selectedAnswers = new Set();
+
+    function toggleAnswer(button) {
+        const answerId = button.getAttribute("data-answer-id");
+
+        if (selectedAnswers.has(answerId)) {
+            selectedAnswers.delete(answerId);
+            button.classList.remove("selected-answer"); // Remove custom class
+        } else {
+            selectedAnswers.add(answerId);
+            button.classList.add("selected-answer"); // Add custom class
+        }
+
+        document.getElementById("nextButton").disabled = selectedAnswers.size === 0;
+
+        document.getElementById("selectedAnswers").value = Array.from(selectedAnswers).join(",");
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

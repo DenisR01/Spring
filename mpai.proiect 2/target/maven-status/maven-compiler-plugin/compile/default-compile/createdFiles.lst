@@ -1,0 +1,9 @@
+csie/ase/ro/mpai/proiect/repository/ExamRepository.class
+csie/ase/ro/mpai/proiect/repository/UserRepository.class
+csie/ase/ro/mpai/proiect/repository/QuestionRepository.class
+csie/ase/ro/mpai/proiect/model/Question.class
+csie/ase/ro/mpai/proiect/repository/AnswerRepository.class
+csie/ase/ro/mpai/proiect/Application.class
+csie/ase/ro/mpai/proiect/model/Exam.class
+csie/ase/ro/mpai/proiect/model/Answer.class
+csie/ase/ro/mpai/proiect/model/User.class
