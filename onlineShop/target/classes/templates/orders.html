@@ -1,0 +1,82 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista Comenzilor</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>Lista Comenzilor</h1>-->
+
+<!--    <table class="table table-bordered">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>Stare</th>-->
+<!--            <th>Produse</th>-->
+<!--            <th>Client ID</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="order : ${orders}">-->
+<!--            <td th:text="${order.id}"></td>-->
+<!--            <td th:text="${order.state}"></td>-->
+<!--            <td>-->
+<!--                <ul>-->
+<!--                    <li th:each="product : ${order.orderedProducts}" th:text="${product}"></li>-->
+<!--                </ul>-->
+<!--            </td>-->
+<!--            <td th:text="${order.client}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Comenzilor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Lista Comenzilor</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Stare</th>
+                <th>Produse</th>
+                <th>Client ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.state}"></td>
+                <td>
+                    <ul class="list-group">
+                        <li th:each="product : ${order.orderedProducts}" class="list-group-item" th:text="${product}"></li>
+                    </ul>
+                </td>
+                <td th:text="${order.client}"></td>
+                <td>
+                    <a th:href="@{/orders/{id}/update(id=${order.id})}" class="btn btn-warning">Actualizare Stare</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
